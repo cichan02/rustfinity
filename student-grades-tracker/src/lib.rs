@@ -2,12 +2,21 @@ use std::collections::HashMap;
 
 pub struct Student {
     // 1. Define the fields
-    name: String,
-    grades: Vec<u8>
+    pub name: String,
+    pub grades: Vec<u8>
+}
+
+impl Student {
+    pub fn new(name: &str) -> Self {
+        Self {
+            name: name.to_string(),
+            grades: Vec::new()
+        }
+    }
 }
 
 pub struct StudentGrades {
-    students: HashMap<String, Student>
+    pub students: HashMap<String, Student>
 }
 
 impl StudentGrades {
@@ -19,15 +28,22 @@ impl StudentGrades {
 
     // 3. Implement the methods
     pub fn add_student(&mut self, name: &str) {
-        // Implement here
+        self.students
+            .entry(name.to_string())
+            .or_insert(Student::new(name));
     }
 
     pub fn add_grade(&mut self, name: &str, grade: u8) {
-        // Implement here
+        if let Some(student) = self.students.get_mut(name) {
+            student.grades.push(grade);
+        }
     }
 
     pub fn get_grades(&self, name: &str) -> &[u8] {
-        // Implement here
+        self.students
+            .get(name)
+            .map(|s| s.grades.as_slice())
+            .unwrap_or(&[])
     }
 }
 
