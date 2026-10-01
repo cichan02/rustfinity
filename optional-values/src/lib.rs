@@ -1,6 +1,6 @@
 pub fn find_first_even(numbers: &[i32]) -> Option<i32> {
     // Your code here...
-    unimplemented!()
+    numbers.iter().copied().find(|num: &i32| num % 2 == 0)
 }
 
 // Example usage
