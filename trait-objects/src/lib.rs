@@ -1,12 +1,55 @@
 // 1. Create the Renderable trait
+pub trait Renderable {
+    fn render(&self) -> String;
+}
 
 // 2. Create the Circle and Rectangle structs
+pub struct Circle {
+    pub radius: f64,
+}
+
+pub struct Rectangle {
+    pub width: f64,
+    pub height: f64,
+}
 
 // 3. Implement the trait for Circle and Rectangle
+impl Renderable for Circle {
+    fn render(&self) -> String {
+        format!("Circle with radius {}", self.radius)
+    }
+}
+
+impl Renderable for Rectangle {
+    fn render(&self) -> String {
+        format!("Rectangle with width {} and height {}", self.width, self.height)
+    }
+}
 
 // 4. Create the Canvas struct
+pub struct Canvas {
+    pub shapes: Vec<Box<dyn Renderable>>
+}
 
 // 5. Implement the Canvas struct
+impl Canvas {
+    pub fn new() -> Self {
+        Self {
+            shapes: vec![]
+        }
+    }
+
+    pub fn add_shape(&mut self, value: Box<dyn Renderable>) {
+        self.shapes.push(value);
+    }
+
+    pub fn render_all(&self) -> Vec<String> {
+        self.shapes
+            .iter()
+            .map(|r| r.render())
+            .collect()
+    }
+}
 
 // Example usage
 pub fn main() {
